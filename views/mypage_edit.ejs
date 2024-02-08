@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark">
+    <%- include('nav.ejs', { user : user }) %>
+    <div class="container mt-4">
+        <h2 class="text-white">마이페이지 수정</h2>
+        <hr class="hr-white-bold">
+        <form action="/mypage_edit" method="POST" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <% if (user.img) { %>
+                        <img src="<%= user.img %>" class="d-block mx-auto profile-img" id="profile-img">
+                    <% } else { %>
+                        <img src="https://taesungchoiforum1.s3.ap-northeast-2.amazonaws.com/man_pictogram.jpg" id="profile-img" class="d-block mx-auto profile-img">
+                    <% } %>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-white">이름</label>
+                        <input type="text" id="_id" name="_id" value="<%= user._id %>" style="display: none;">
+                        <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>">
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label text-white">나이</label>
+                        <select class="form-control text-black border-black" id="age" name="age">
+                            <% for (let i = 1; i <= 100; i++) { %>
+                                <% if (i == user.age) { %>
+                                    <option value="<%= i %>" selected><%= i %></option>
+                                <% } else { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <label for="img" class="form-label text-white">프로필 사진</label>
+                        <div class="col-md-6 mb-3">
+                            <input type="file" class="form-control" id="img" name="img" accept="image/*">
+                            <input type="text" id="old_img" name="old_img" value="<%= user.img %>" style="display: none;">
+                            <input type="text" id="profile_img_changed" name="profile_img_changed" value=0 style="display: none;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="btn btn-light w-100" id="profile-img-reset">기본 사진</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="texts" class="form-label text-white">소개글</label>
+                <textarea class="form-control" id="texts" name="texts" rows="3"><%= user.texts %></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-light">수정 완료</button>
+            <button type="button" class="btn btn-outline-light" onclick="location.href='/mypage/<%= user._id %>'">취소</button>
+        </form>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const fileInput = document.getElementById('img');
+        const profileImg = document.getElementById('profile-img');
+
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) {
+                const file = e.target.files[0];
+                console.log('file : '+file)
+                const imgUrl = URL.createObjectURL(file);
+                console.log('imgUrl : '+imgUrl);
+                profileImg.src = imgUrl;
+                document.getElementById('profile_img_changed').value = 1;
+            }
+        });
+
+        const profileImgReset = document.getElementById('profile-img-reset');
+        profileImgReset.addEventListener('click', () => {
+            profileImg.src = 'https://taesungchoiforum1.s3.ap-northeast-2.amazonaws.com/man_pictogram.jpg'
+            fileInput.value = '';
+            document.getElementById('profile_img_changed').value = 1;
+        });
+    </script>
+</body>
+
+</html>

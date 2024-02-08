@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bolder" href="http://localhost:8080/list">홈</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <% if (user) { %>
+          <a class="nav-link active" href="http://localhost:8080/write" id="write">Write</a>
+          <a class="nav-link active" href="http://localhost:8080/logout" id="logout">Logout</a>
+          <a class="nav-link active" href="http://localhost:8080/mypage/<%= user._id%>"id="mypage">Mypage</a>
+        <% } else { %>
+          <a class="nav-link active" href="http://localhost:8080/login" id="login">Login</a>
+          <a class="nav-link active" href="http://localhost:8080/register" id="register">Register</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
