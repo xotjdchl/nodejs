@@ -34,7 +34,11 @@
     <% } %>
     <div class="white-box text-center">
         <a href="/list/1" class="btn btn-outline-dark">|<</a>
-        <a href="/list/<%= nowpage - 1 %>" class="btn btn-outline-dark" id="previous"><</a>
+        <% if (nowpage == 1) {%>
+            <a href="" class="btn btn-outline-dark" id="previous"><</a>
+        <% } else { %>
+            <a href="/list/<%= nowpage - 1 %>" class="btn btn-outline-dark" id="previous"><</a>
+        <% } %>
         <% let j = parseInt((nowpage - 1)/5) %>
         <% for (let i = 5 * j + 1; i < 5 * j + 6; i++){ %>
             <% if (i == nowpage) { %>
@@ -44,7 +48,11 @@
             <% } %>
             <% if (i == maxpage) break %>
         <% } %>
-        <a href="/list/<%= parseInt(nowpage) + 1 %>" class="btn btn-outline-dark" id="next">></a>
+        <% if (nowpage == maxpage) {%>
+            <a href="" class="btn btn-outline-dark" id="next">></a>
+        <% } else { %>
+            <a href="/list/<%= parseInt(nowpage) + 1 %>" class="btn btn-outline-dark" id="next">></a>
+        <% } %>
         <a href="/list/<%= maxpage %>" class="btn btn-outline-dark">>|</a>
         
     </div>
